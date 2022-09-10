@@ -12,6 +12,7 @@ This library is only for transport and will not support audio encoding/decoding.
   - [ ] Heartbeat (keep-alive)
   - [ ] Reconnect/Resume
   - [ ] Select protocol and handle session description
+  - [ ] Speaking payloads
 - [ ] UDP
   - [ ] Holepunch
   - [ ] API for sending audio
