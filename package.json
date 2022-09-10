@@ -1,0 +1,31 @@
+{
+  "name": "aoede",
+  "version": "0.0.1",
+  "description": "An audio transport library for discord in NodeJS",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint lib *.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidffa/Aoede.git"
+  },
+  "author": "David Amorim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidffa/Aoede/issues"
+  },
+  "keywords": [
+    "audio",
+    "voice",
+    "discord",
+    "discord-audio",
+    "discord-voice"
+  ],
+  "devDependencies": {
+    "eslint": "^8.23.0",
+    "typescript": "^4.8.3"
+  }
+}
