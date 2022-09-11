@@ -6,7 +6,8 @@ An audio transport library for discord in NodeJS.
 This library is only for transport and will not support audio encoding/decoding.
 
 ## TODO:
-- [ ] Aoede main client
+- [x] Aoede main client
+  - [x] Interface to connect to the voice channel (optional usage)
 - [ ] Gateway
   - [ ] Identify
   - [ ] Heartbeat (keep-alive)
