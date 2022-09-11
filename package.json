@@ -5,7 +5,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && tsc && cp -r ./lib/@types ./dist",
+    "build": "rm -rf dist && tsc && cp -r ./lib/@types ./dist/lib",
     "lint": "eslint lib *.ts"
   },
   "repository": {
