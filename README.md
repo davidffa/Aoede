@@ -9,8 +9,8 @@ This library is only for transport and will not support audio encoding/decoding.
 - [x] Aoede main client
   - [x] Interface to connect to the voice channel (optional usage)
 - [ ] Gateway
-  - [ ] Identify
-  - [ ] Heartbeat (keep-alive)
+  - [x] Identify
+  - [x] Heartbeat (keep-alive)
   - [ ] Reconnect/Resume
   - [ ] Select protocol and handle session description
   - [ ] Speaking payloads

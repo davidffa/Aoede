@@ -28,17 +28,24 @@ export type OutgoingDiscordPacket = {
   d: Record<string, unknown>;
 };
 
+export type VoiceServerInfo = {
+  sessionId?: string;
+  endpoint?: string;
+  token?: string;
+};
+
 export type AoedeEventListeners<T> = {
   (event: 'debug', listener: (message: string) => void): T;
-}
+};
 
 export type AoedeOptions = {
   cliendId: string;
   sendWS?: (guildId: string, packet: OutgoingDiscordPacket) => void;
 };
 
-export type VoiceServerInfo = {
-  sessionId?: string;
-  endpoint?: string;
-  token?: string;
+export type VCEventListeners<T> = {
+  (event: 'debug', listener: (message: string) => void): T;
+  (event: 'warn', listener: (message: string) => void): T;
+  (event: 'error', listener: (error: Error) => void): T;
+  (event: 'rawWS', listener: (packet: Pick<IncomingDiscordPacket, 'op' | 'd'>) => void): T;
 }

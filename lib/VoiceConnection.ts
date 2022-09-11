@@ -2,22 +2,34 @@ import { EventEmitter } from 'node:events';
 
 import { Aoede } from './Aoede';
 
-import type { VoiceServerInfo, VoiceServerUpdateData } from './@types';
+import type { VCEventListeners, VoiceServerInfo, VoiceServerUpdateData } from './@types';
+import { WebSocketHandler } from './handlers/WebSocketHandler';
 
 export enum VoiceConnectionState {
   PENDING,    // waiting for voice server info
   READY,      // ready to connect
   CONNECTING, // connecting to voice server
-  CONNECTED,  // connected to voice server
-}
+  CONNECTED,  // connected to voice udp & gateway
+};
+
+export declare interface VoiceConnection {
+  on: VCEventListeners<this>;
+  once: VCEventListeners<this>;
+};
 
 export class VoiceConnection extends EventEmitter {
   public state: VoiceConnectionState;
+
+  public ssrc: number | null;
+
+  private ws: WebSocketHandler | null;
   private _voiceServerInfo: VoiceServerInfo;
 
-  constructor(private readonly aoede: Aoede, public readonly guildId: string) {
+  constructor(public readonly aoede: Aoede, public readonly guildId: string) {
     super();
     this.state = VoiceConnectionState.PENDING;
+    this.ssrc = null;
+    this.ws = null;
     this._voiceServerInfo = {};
   }
 
@@ -53,6 +65,10 @@ export class VoiceConnection extends EventEmitter {
     }
   }
 
+  get voiceServerInfo(): VoiceServerInfo {
+    return this._voiceServerInfo;
+  }
+
   public connect(): void {
     if (this.state === VoiceConnectionState.PENDING) {
       throw new Error('Missing voice server info to connect.');
@@ -63,6 +79,8 @@ export class VoiceConnection extends EventEmitter {
     }
 
     this.state = VoiceConnectionState.CONNECTING;
+    this.ws = new WebSocketHandler(this.aoede, this);
+    this.ws.connect();
   }
 
   public disconnect(): void {
