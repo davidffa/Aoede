@@ -79,7 +79,7 @@ export class VoiceConnection extends EventEmitter {
     }
 
     this.state = VoiceConnectionState.CONNECTING;
-    this.ws = new WebSocketHandler(this.aoede, this);
+    this.ws = new WebSocketHandler(this);
     this.ws.connect();
   }
 
