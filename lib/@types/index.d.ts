@@ -13,8 +13,8 @@ export type VoiceStateUpdateData = {
 }
 
 export type OutgoingVoiceStateUpdateData = Omit<VoiceStateUpdateData, 'user_id' | 'session_id'> & {
-  self_deaf: boolean;
-  self_mute: boolean;
+  self_deaf?: boolean;
+  self_mute?: boolean;
 }
 
 export type VoiceServerUpdateData = {

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'node:events';
 
-import { VoiceConnection } from './VoiceConnection';
+import { VoiceConnection, VoiceConnectionState } from './VoiceConnection';
 
 import type {
   AoedeEventListeners,
@@ -19,7 +19,7 @@ export declare interface Aoede {
 
 export class Aoede extends EventEmitter {
   public readonly clientId: string;
-  declare public readonly sendWS: (guildId: string, packet: OutgoingDiscordPacket) => void | undefined;
+  declare public readonly sendWS: ((guildId: string, packet: OutgoingDiscordPacket) => void) | undefined;
 
   private connections: VoiceConnection[];
 
@@ -27,7 +27,7 @@ export class Aoede extends EventEmitter {
     super();
 
     this.clientId = options.cliendId;
-    this.sendWS = this.sendWS;
+    this.sendWS = options.sendWS;
 
     this.connections = [];
   }
@@ -69,12 +69,14 @@ export class Aoede extends EventEmitter {
         user_id
       } = packet.d as VoiceStateUpdateData;
 
-      if (user_id !== this.clientId || channel_id) return;
+      if (user_id !== this.clientId || !channel_id) return;
 
       const connection = this.getVoiceConnection(guild_id);
       if (!connection) return;
 
       connection.sessionId = session_id;
+
+      if (connection.state === VoiceConnectionState.READY) connection.connect();
     } else if (packet.t === 'VOICE_SERVER_UPDATE') {
       const {
         endpoint,
@@ -89,6 +91,8 @@ export class Aoede extends EventEmitter {
         token,
         endpoint
       };
+
+      if (connection.state === VoiceConnectionState.READY) connection.connect();
     }
   }
 
